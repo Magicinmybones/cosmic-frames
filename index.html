@@ -366,10 +366,11 @@
     animation-duration: 0.9s;
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
     animation-fill-mode: both;
+    animation-play-state: paused;   /* held until backgrounds finish loading */
   }
 
   /* ---- Screen 1 backdrop + content cascade --------------- */
-  .tp-screen .hero { animation: zeBgSettle 1.7s cubic-bezier(0.16,1,0.3,1) both; }
+  .tp-screen .hero { animation: zeBgSettle 1.7s cubic-bezier(0.16,1,0.3,1) both; animation-play-state: paused; }
   .tp-screen .logo     { animation-name: zeDrop;   animation-delay: 0.45s; }
   .tp-screen .title    { animation-name: zeReveal; animation-delay: 0.62s; }
   .tp-screen .subtitle { animation-name: zeReveal; animation-delay: 0.78s; }
@@ -377,7 +378,7 @@
   .tp-screen .terms    { animation-name: zeReveal; animation-delay: 1.06s; }
 
   /* ---- Screen 2 backdrop + content cascade --------------- */
-  .up-screen .bg { animation: zeBgSettle 1.7s cubic-bezier(0.16,1,0.3,1) both; animation-delay: 0.12s; }
+  .up-screen .bg { animation: zeBgSettle 1.7s cubic-bezier(0.16,1,0.3,1) both; animation-delay: 0.12s; animation-play-state: paused; }
   .up-screen .heading { animation-name: zeReveal; animation-delay: 0.58s; }
   .up-screen .divider { animation-name: zeLine; transform-origin: left center; animation-delay: 0.72s; }
   .up-screen .row:nth-child(1) { animation-name: zeReveal; animation-delay: 0.80s; }
@@ -390,6 +391,18 @@
   .up-screen .subscribe { animation-name: zeReveal; animation-delay: 1.42s; }
   .up-screen .save { animation-name: zePop; animation-duration: 0.7s;
     animation-timing-function: cubic-bezier(0.34,1.56,0.64,1); animation-delay: 1.55s; }
+
+  /* Release the whole cascade once #ze-viewport gets .ze-ready
+     (set by JS after both background images have fully loaded). */
+  .ze-ready .tp-screen .hero,   .ze-ready .up-screen .bg,
+  .ze-ready .tp-screen .logo,   .ze-ready .tp-screen .title,
+  .ze-ready .tp-screen .subtitle, .ze-ready .tp-screen .btn,
+  .ze-ready .tp-screen .terms,
+  .ze-ready .up-screen .heading, .ze-ready .up-screen .divider,
+  .ze-ready .up-screen .row,     .ze-ready .up-screen .card,
+  .ze-ready .up-screen .save,    .ze-ready .up-screen .subscribe {
+    animation-play-state: running;
+  }
 
   /* Respect users who prefer no motion */
   @media (prefers-reduced-motion: reduce) {
@@ -603,6 +616,39 @@
 </div>
 
 <script>
+  /* Gate the entrance choreography: keep every element paused at its
+     hidden start-frame until BOTH screen background images have fully
+     decoded, then release the whole cascade by flagging #ze-viewport. */
+  (function () {
+    var vp = document.getElementById('ze-viewport');
+    if (!vp) return;
+    var released = false;
+    function release() { if (released) return; released = true; vp.classList.add('ze-ready'); }
+
+    function whenLoaded(img) {
+      return new Promise(function (res) {
+        var done = function () { res(); };
+        if (img.complete && img.naturalWidth > 0) {
+          (img.decode ? img.decode().then(done, done) : done());
+          return;
+        }
+        img.addEventListener('load', function () { (img.decode ? img.decode().then(done, done) : done()); }, { once: true });
+        img.addEventListener('error', done, { once: true });
+      });
+    }
+
+    var waits = [];
+    var hero = document.querySelector('.tp-screen .hero');           // Screen 1 bg (<img>)
+    if (hero) waits.push(whenLoaded(hero));
+    var bg2 = new Image();                                           // Screen 2 bg (CSS bg → preload)
+    bg2.src = 'assets/images/screen%202%20bg.png';
+    waits.push(whenLoaded(bg2));
+    if (document.fonts && document.fonts.ready) waits.push(document.fonts.ready);
+
+    Promise.all(waits).then(release);
+    setTimeout(release, 5000);   // safety net: never leave content hidden
+  })();
+
   /* Cosmic animated background — drifting particles, warm bloom,
      god rays and bokeh orbs painted on a full-viewport canvas. */
   (function () {

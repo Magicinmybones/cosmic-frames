@@ -29,18 +29,18 @@
      BkNarrowIta   → italic "your places" in the title            */
   @font-face {
     font-family: 'ITC Garamond Std Narrow'; font-style: normal; font-weight: 300; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-LtNarrow.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-LtNarrow.woff') format('woff');
+    src: url('https://res.cloudinary.com/dgupuutfn/raw/upload/v1783596334/ITCGaramondStd-LtNarrow_i2zcip.woff2') format('woff2'),
+         url('https://res.cloudinary.com/dgupuutfn/raw/upload/v1783596334/ITCGaramondStd-LtNarrow_soc5vc.woff') format('woff');
   }
   @font-face {
     font-family: 'ITC Garamond Std Narrow'; font-style: normal; font-weight: 400; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-BkNarrow.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-BkNarrow.woff') format('woff');
+    src: url('https://res.cloudinary.com/dgupuutfn/raw/upload/v1783596334/ITCGaramondStd-BkNarrow_xjfoc0.woff2') format('woff2'),
+         url('https://res.cloudinary.com/dgupuutfn/raw/upload/v1783596334/ITCGaramondStd-BkNarrow_wfoxm1.woff') format('woff');
   }
   @font-face {
     font-family: 'ITC Garamond Std Narrow'; font-style: italic; font-weight: 400; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-BkNarrowIta.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-BkNarrowIta.woff') format('woff');
+    src: url('https://res.cloudinary.com/dgupuutfn/raw/upload/v1783596334/ITCGaramondStd-BkNarrowIta_hiy9ld.woff2') format('woff2'),
+         url('https://res.cloudinary.com/dgupuutfn/raw/upload/v1783596334/ITCGaramondStd-BkNarrowIta_rlarxo.woff') format('woff');
   }
 
   :root {
@@ -96,11 +96,13 @@
   /* ---- Stage / background -------------------------------- */
   .ze-viewport {
     height: 100vh; width: 100vw; position: relative; overflow: hidden;
-    background: radial-gradient(115% 90% at 50% 48%, #101836 0%, #0a1128 24%, #060c1e 44%, #040814 64%, #02030c 83%, #010109 100%);
+    background: #f4f4f4;
     display: flex; align-items: center; justify-content: center;
     padding: var(--ze-viewport-pad); box-sizing: border-box;
     font-family: Helvetica, Arial, sans-serif;
   }
+  /* cosmic background unwired — HTML kept, layers disabled */
+  .ze-cosmic, .ze-grain, .ze-vignette { display: none !important; }
   /* cosmic canvas + grain + vignette (behind the phones) */
   @keyframes zeGrain {
     0%{transform:translate(0,0)} 20%{transform:translate(-4%,3%)} 40%{transform:translate(3%,-5%)}
@@ -654,6 +656,7 @@
   (function () {
     var canvas = document.getElementById('ze-cosmic');
     if (!canvas) return;
+    if (getComputedStyle(canvas).display === 'none') return;   /* unwired — skip rAF loop */
     var ctx = canvas.getContext('2d');
     var glow = 1, rays = true, drift = 1;   /* tunables */
     var rand = function (a, b) { return a + Math.random() * (b - a); };
@@ -787,7 +790,8 @@
       var availH = viewport.clientHeight - pad;
       var naturalW = stage.scrollWidth;
       var naturalH = stage.scrollHeight;
-      var scale = Math.min(1, availW / naturalW, availH / naturalH);
+      var SHRINK = 0.95;   /* render the phones a touch smaller than max fit */
+      var scale = Math.min(1, availW / naturalW, availH / naturalH) * SHRINK;
       stage.style.transform = 'scale(' + scale + ')';
       stage.style.transformOrigin = 'center center';
     }

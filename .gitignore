@@ -1,0 +1,6 @@
+# Claude Code local config
+.claude/
+
+# OS files
+.DS_Store
+Thumbs.db

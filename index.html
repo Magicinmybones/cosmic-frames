@@ -23,61 +23,14 @@
      entrance animations — is ready to reuse.
      ============================================================ */
 
-  /* ---- ITC Garamond Std (local assets) ------------------
-     Each CSS weight is bound to the matching cut so the browser
-     resolves the correct file by font-weight / font-style:
-       300 → Light   400 → Book   700 → Bold   800 → Ultra   */
-  @font-face {
-    font-family: 'ITC Garamond Std'; font-style: normal; font-weight: 300; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-Lt.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-Lt.woff') format('woff');
-  }
-  @font-face {
-    font-family: 'ITC Garamond Std'; font-style: italic; font-weight: 300; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-LtIta.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-LtIta.woff') format('woff');
-  }
-  @font-face {
-    font-family: 'ITC Garamond Std'; font-style: normal; font-weight: 400; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-Bk.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-Bk.woff') format('woff');
-  }
-  @font-face {
-    font-family: 'ITC Garamond Std'; font-style: italic; font-weight: 400; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-BkIta.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-BkIta.woff') format('woff');
-  }
-  @font-face {
-    font-family: 'ITC Garamond Std'; font-style: normal; font-weight: 700; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-Bd.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-Bd.woff') format('woff');
-  }
-  @font-face {
-    font-family: 'ITC Garamond Std'; font-style: italic; font-weight: 700; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-BdIta.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-BdIta.woff') format('woff');
-  }
-  @font-face {
-    font-family: 'ITC Garamond Std'; font-style: normal; font-weight: 800; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-Ult.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-Ult.woff') format('woff');
-  }
-  @font-face {
-    font-family: 'ITC Garamond Std'; font-style: italic; font-weight: 800; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-UltIta.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-UltIta.woff') format('woff');
-  }
-
-  /* ---- ITC Garamond Std Narrow (condensed width) -------- */
+  /* ---- ITC Garamond Std Narrow (only the cuts in use) ----
+     LtNarrow 300  → Screen 1 title
+     BkNarrow 400  → "Unlock Pro:" heading (weight 500 falls back to 400)
+     BkNarrowIta   → italic "your places" in the title            */
   @font-face {
     font-family: 'ITC Garamond Std Narrow'; font-style: normal; font-weight: 300; font-display: swap;
     src: url('assets/fonts/itc-garamond/ITCGaramondStd-LtNarrow.woff2') format('woff2'),
          url('assets/fonts/itc-garamond/ITCGaramondStd-LtNarrow.woff') format('woff');
-  }
-  @font-face {
-    font-family: 'ITC Garamond Std Narrow'; font-style: italic; font-weight: 300; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-LtNarrowIta.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-LtNarrowIta.woff') format('woff');
   }
   @font-face {
     font-family: 'ITC Garamond Std Narrow'; font-style: normal; font-weight: 400; font-display: swap;
@@ -88,26 +41,6 @@
     font-family: 'ITC Garamond Std Narrow'; font-style: italic; font-weight: 400; font-display: swap;
     src: url('assets/fonts/itc-garamond/ITCGaramondStd-BkNarrowIta.woff2') format('woff2'),
          url('assets/fonts/itc-garamond/ITCGaramondStd-BkNarrowIta.woff') format('woff');
-  }
-  @font-face {
-    font-family: 'ITC Garamond Std Narrow'; font-style: normal; font-weight: 700; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-BdNarrow.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-BdNarrow.woff') format('woff');
-  }
-  @font-face {
-    font-family: 'ITC Garamond Std Narrow'; font-style: italic; font-weight: 700; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-BdNarrowIta.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-BdNarrowIta.woff') format('woff');
-  }
-  @font-face {
-    font-family: 'ITC Garamond Std Narrow'; font-style: normal; font-weight: 800; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-UltNarrow.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-UltNarrow.woff') format('woff');
-  }
-  @font-face {
-    font-family: 'ITC Garamond Std Narrow'; font-style: italic; font-weight: 800; font-display: swap;
-    src: url('assets/fonts/itc-garamond/ITCGaramondStd-UltNarrowIta.woff2') format('woff2'),
-         url('assets/fonts/itc-garamond/ITCGaramondStd-UltNarrowIta.woff') format('woff');
   }
 
   :root {
@@ -256,7 +189,7 @@
 
   .up-screen .heading {
     position: absolute; left: 28px; top: 386px;
-    font-family: 'ITC Garamond Std Narrow', 'ITC Garamond Std', 'Playfair Display', serif;
+    font-family: 'ITC Garamond Std Narrow', 'Playfair Display', serif;
     font-weight: 500; font-size: 26px; line-height: 1; color: #fff;
     letter-spacing: 0.2px; text-shadow: 0 0 18px rgba(120,180,220,0.35);
   }
@@ -361,7 +294,7 @@
   .tp-screen .title {
     position: absolute; top: 618px; left: 0; right: 0; z-index: 4;
     text-align: center; color: #fff;
-    font-family: 'ITC Garamond Std Narrow', 'ITC Garamond Std', 'Playfair Display', serif;
+    font-family: 'ITC Garamond Std Narrow', 'Playfair Display', serif;
     font-weight: 300; font-size: 66px; line-height: 68px; letter-spacing: .2px;
     text-shadow: 0 0 34px rgba(255,255,255,.22), 0 1px 2px rgba(0,0,0,.35);
   }

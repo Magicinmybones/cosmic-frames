@@ -326,6 +326,78 @@
     color: rgba(255,255,255,.42);
   }
   .tp-screen .terms b { color: rgba(255,255,255,.82); font-weight: 400; }
+
+  /* ============================================================
+     ENTRANCE CHOREOGRAPHY
+     ------------------------------------------------------------
+     Each element rises + sharpens on load with an expo-out ease,
+     staggered top→bottom, left screen leading the right. The two
+     device frames themselves stay put — only their contents move.
+     ============================================================ */
+  @keyframes zeReveal {
+    0%   { opacity: 0; transform: translateY(26px) scale(0.985); filter: blur(7px); }
+    100% { opacity: 1; transform: translateY(0)   scale(1);      filter: blur(0); }
+  }
+  @keyframes zeDrop {
+    0%   { opacity: 0; transform: translateY(-16px) scale(0.90); }
+    60%  { opacity: 1; }
+    100% { opacity: 1; transform: translateY(0)     scale(1); }
+  }
+  @keyframes zeLine {
+    0%   { opacity: 0; transform: scaleX(0); }
+    100% { opacity: 1; transform: scaleX(1); }
+  }
+  @keyframes zePop {
+    0%   { opacity: 0; transform: translateY(8px) scale(0.78); }
+    62%  { opacity: 1; transform: translateY(0)   scale(1.07); }
+    100% { opacity: 1; transform: translateY(0)   scale(1); }
+  }
+  @keyframes zeBgSettle {
+    0%   { opacity: 0; transform: scale(1.12); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+
+  /* shared easing + fill: elements hold their start frame until their
+     delay elapses (no flash of un-animated content). */
+  .tp-screen .logo,   .tp-screen .title,  .tp-screen .subtitle,
+  .tp-screen .btn,    .tp-screen .terms,
+  .up-screen .heading, .up-screen .divider, .up-screen .row,
+  .up-screen .card,    .up-screen .save,    .up-screen .subscribe {
+    animation-duration: 0.9s;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    animation-fill-mode: both;
+  }
+
+  /* ---- Screen 1 backdrop + content cascade --------------- */
+  .tp-screen .hero { animation: zeBgSettle 1.7s cubic-bezier(0.16,1,0.3,1) both; }
+  .tp-screen .logo     { animation-name: zeDrop;   animation-delay: 0.45s; }
+  .tp-screen .title    { animation-name: zeReveal; animation-delay: 0.62s; }
+  .tp-screen .subtitle { animation-name: zeReveal; animation-delay: 0.78s; }
+  .tp-screen .btn      { animation-name: zeReveal; animation-delay: 0.94s; }
+  .tp-screen .terms    { animation-name: zeReveal; animation-delay: 1.06s; }
+
+  /* ---- Screen 2 backdrop + content cascade --------------- */
+  .up-screen .bg { animation: zeBgSettle 1.7s cubic-bezier(0.16,1,0.3,1) both; animation-delay: 0.12s; }
+  .up-screen .heading { animation-name: zeReveal; animation-delay: 0.58s; }
+  .up-screen .divider { animation-name: zeLine; transform-origin: left center; animation-delay: 0.72s; }
+  .up-screen .row:nth-child(1) { animation-name: zeReveal; animation-delay: 0.80s; }
+  .up-screen .row:nth-child(2) { animation-name: zeReveal; animation-delay: 0.88s; }
+  .up-screen .row:nth-child(3) { animation-name: zeReveal; animation-delay: 0.96s; }
+  .up-screen .row:nth-child(4) { animation-name: zeReveal; animation-delay: 1.04s; }
+  .up-screen .row:nth-child(5) { animation-name: zeReveal; animation-delay: 1.12s; }
+  .up-screen .card.monthly { animation-name: zeReveal; animation-delay: 1.22s; }
+  .up-screen .card.yearly  { animation-name: zeReveal; animation-delay: 1.30s; }
+  .up-screen .subscribe { animation-name: zeReveal; animation-delay: 1.42s; }
+  .up-screen .save { animation-name: zePop; animation-duration: 0.7s;
+    animation-timing-function: cubic-bezier(0.34,1.56,0.64,1); animation-delay: 1.55s; }
+
+  /* Respect users who prefer no motion */
+  @media (prefers-reduced-motion: reduce) {
+    .tp-screen .hero, .tp-screen .logo, .tp-screen .title, .tp-screen .subtitle,
+    .tp-screen .btn, .tp-screen .terms, .up-screen .bg, .up-screen .heading,
+    .up-screen .divider, .up-screen .row, .up-screen .card, .up-screen .save,
+    .up-screen .subscribe { animation: none !important; }
+  }
 </style>
 </head>
 <body>
